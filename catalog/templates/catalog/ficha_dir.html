@@ -1,0 +1,48 @@
+{% extends 'catalog/index.html' %}
+
+<meta charset="UTF-8">
+{% block title %}
+<title>Ficha Director</title>
+{% endblock %}
+
+{% block content %}
+{% for item in director %}
+  <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative bg-light h-auto">
+    <div class="col p-4 d-flex flex-column position-static">
+      <h3 class="mb-0">{{ item.nombre }}</h3><br>
+      <p class="mb-auto">{{ item.edad }}</p>
+      <div class="mb-1 text-muted">Num. Películas: {{ item.numero_pel }}</div>
+      <p class="mb-auto">{{ item.bio_dir }}</p>
+    </div>
+    <div class="col-auto d-none d-lg-block">
+      {{ item.foto }}
+    </div>
+  </div>
+{% endfor %}
+<div class="row g-0 text-center border rounded overflow-hidden flex-md-row mb-4 shadow-sm position-relative bg-light">
+    <h3>FILMOGRAFIA</h3>
+</div>
+  <div class="row mb-2">
+    {% for peli in total_pel_dir %}
+    <div class="col-md-6">
+      <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative bg-light">
+        <div class="col p-4 d-flex flex-column position-static">
+          <h3 class="mb-0"><a href="ficha_pel/?page={{ peli.id }}" class="text-dark end" name="dame_ficha_pel">{{ peli.nombre_pel }}</a></h3><br>
+          <p class="mb-auto">{{ peli.estreno }} - {{ peli.bio_pel }}</p>
+          <div class="mb-1 text-muted">
+
+            <h6>{% for genero in peli.dame_genero_pel %}{{ genero }}{% endfor %}</h6>
+
+
+
+          </div>
+        </div>
+        <div class="col-auto d-none d-lg-block">
+          {{ peli.foto_pel }}
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+{% endblock %}

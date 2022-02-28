@@ -1,0 +1,137 @@
+<!doctype html>
+{% load static %}
+
+
+<html lang="es" xmlns="http://www.w3.org/1999/html">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Enciclopedia de Directores de Cine">
+    <meta name="author" content="Albano Chicharro Altur">
+    {% block title %}
+    <title>Enciclopedia directores de cine</title>
+    {% endblock %}
+    <link rel="stylesheet" href="{% static 'bootstrap4/css/bootstrap.min.css' %}">
+    <style>
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+      }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+    </style>
+    <link href="https://fonts.googleapis.com/css?family=Playfair&#43;Display:700,900&amp;display=swap" rel="stylesheet">
+    <link href="{% static 'bootstrap4/css/mi-css.css' %}" rel="stylesheet">
+  </head>
+
+  <body>
+
+  <div class="container">
+    <header class="header py-3">
+      <div class="row g-0 text-center border rounded overflow-hidden flex-md-row mb-4 shadow-sm position-relative bg-light">
+        <div class="col-4 pt-1">
+        </div>
+        <div class="col-4 text-center">
+          <h3>
+            <a class="text-dark" href="/catalog" >DIRECTORES DE CINE</a>
+          </h3>
+        </div>
+        <div class="col-4 d-flex justify-content-end align-items-center">
+          <form action="/catalog/buscar/" method="GET">
+            <input type="text" name="buscar_dir">
+              <button class="btn btn-light btn-sm" rel="submit">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor"
+                 stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="mx-3" role="img"
+                 viewBox="0 0 24 24">
+                <title>Buscar</title><circle cx="10.5" cy="10.5" r="7.5"/><path d="M21 21l-5.2-5.2"/>
+                </svg>
+              </button>
+          </form>
+        </div>
+      </div>
+    </header>
+  </div>
+
+  <main class="container">
+    <div class="p-4 p-md-3 mb-4 text-white rounded bg-secondary">
+      <h5 align="center">{% for frase in lista_frases %} {{frase}} {% endfor %}</h5>
+      <div class="col-md-6 px-0">
+      </div>
+    </div>
+    {% block content %}
+    {% load navigation_filters %}
+    <div class="row mb-2">
+      {% for item in items %}
+      <div class="col-md-6">
+        <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative bg-light">
+          <div class="col p-4 d-flex flex-column position-static">
+            <h3 class="mb-0">
+              <a href="buscar/ficha_dir/?page={{ item.id }}" class="text-dark" name="dame_ficha_dir">{{ item.nombre }}</a>
+            </h3>
+            <br>
+            <p class="mb-auto">
+              <a href="buscar/ficha_dir/?page={{ item.id }}" class="text-dark" name="dame_ficha_dir">
+                {{ item.edad }} - {{ item.bio }}
+              </a>
+            </p>
+            <div class="mb-1 text-muted">Num. Películas: {{ item.numero_pel }}
+            </div>
+          </div>
+          <div class="col-auto d-none d-lg-block">
+            <a href="buscar/ficha_dir/?page={{ item.id }}" class="text-dark" name="dame_ficha_dir">
+              {{ item.foto }}
+            </a>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
+     {% if items.has_next or items.has_previous %}
+      <nav>
+        <ul class="pagination justify-content-center">
+            {% if items.has_previous %}
+                <li><a href="?page={{ items.previous_page_number }}" class="btn btn-pages">
+                  Anterior
+                </a></li>
+            {% endif %}
+            {% for page in items.paginator.page_range|page_filter:items %}
+                <li class="{% if items.number == page %}active{% endif %}">
+                    <a class="btn btn-pages" href="?page={{ page }}">{{ page }}</a></li>
+            {% endfor %}
+
+            {% if items.has_next %}
+                <li>
+                    <a href="?page={{ items.next_page_number }}" class="btn btn-pages">
+                        Siguiente
+                    </a>
+                </li>
+            {% endif %}
+        </ul>
+        </nav>
+      {% endif %}
+
+      {% endblock %}
+    <hr>
+  </main>
+
+  <footer class="footer">
+    <p>Construido con <a href="https://getbootstrap.com/" class="text-dark">Bootstrap</a> by
+      <a href="https://twitter.com/@Yokekomo_code" class="text-dark">@Yokekomo_code</a>.</p>
+    <p>
+      <a class="text-dark" href="#" >Volver al inicio</a>
+    </p>
+  </footer>
+      <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"
+              integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB"
+              crossorigin="anonymous"></script>
+      <script src="{% static 'bootstrap4/js/bootstrap.min.js' %}"></script>
+  </body>
+</html>

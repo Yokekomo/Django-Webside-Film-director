@@ -1,0 +1,42 @@
+{% extends 'catalog/index.html' %}
+{% load navigation_filters %}
+<meta charset="UTF-8">
+{% block title %}
+<title>Búsqueda</title>
+{% endblock %}
+
+{% block content %}
+
+<h3 class="pb-4 mb-4 fst-italic border-bottom" align="center"><strong>{{ query }}</strong></h3>
+  {% if director %}
+
+<p align="center">Se han encontrado: {{ director|length }} coincidencias</p>
+<hr>
+<div class="row mb-2">
+{% for resultado in director %}
+  <div class="col-md-6">
+    <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+      <div class="col p-4 d-flex flex-column position-static">
+        <h3 class="mb-0">
+          <a href="ficha_dir/?page={{ resultado.id }}" class="text-dark" name="dame_ficha_dir">{{ resultado.nombre }}</a>
+        </h3><br>
+        <p class="mb-auto">
+          <a href="ficha_dir/?page={{ resultado.id }}" class="text-dark" name="dame_ficha_dir">{{ resultado.edad }} - {{ resultado.bio }}</a>
+        </p>
+        <div class="mb-1 text-muted">
+          <h6>Num. Películas: {{ resultado.numero_pel }}</h6>
+        </div>
+      </div>
+      <div class="col-auto d-none d-lg-block">
+        <a href="ficha_dir/?page={{ resultado.id }}" class="text-dark" name="dame_ficha_dir">{{ resultado.foto }}</a>
+      </div>
+    </div>
+  </div>
+{% endfor %}
+</div>
+{% else %}
+
+<p align="center">No se han encontrado directores con ese nombre</p>
+{% endif %}
+
+{% endblock %}
